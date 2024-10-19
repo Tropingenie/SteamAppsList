@@ -219,11 +219,31 @@ async function fullUpdate() {
     }
 
     if (process.env.HARD_UPDATE == 'TRUE') {
-        console.log('Unlinking files for hard update');
-        fs.unlinkSync(local_dump_name);
-        fs.unlinkSync(local_dump_name_games);
-        fs.unlinkSync(local_dump_name_games_achievements);
-        fs.unlinkSync(local_dump_name_not_games);
+        // Previously, we just deleted the files. However, this adds significant time to the processing
+        // that isn't necessary, and overrides games that may have been removed (due to #1)
+        // To avoid this, open the file and remove any "bad" entries
+        if (fs.existsSync(local_dump_name)) {
+            console.log("Removing old entries for hard update")
+            file = fs.readFileSync(local_dump_name, encoding='UTF-8');
+            json = JSON.parse(file);
+            // console.log(json.applist.apps);
+            // console.log(json.applist.apps[5]);
+            // console.log(json.applist.apps[5].name);
+            // console.log(json.applist.apps.length);
+            // json.applist.apps.splice(5, 1);
+            // console.log(json.applist.apps[5].name);
+            console.log(`Found ${json.applist.apps.length} apps in old list`);
+            for (i = 0; i < json.applist.apps.length; i++) {
+                if (json.applist.apps[i].type == "game" && json.applist.apps[i].achievements == null) {
+                    // console.log(js.applist.apps[i].name);
+                    json.applist.apps.splice(i, 1);
+                    i--; // Decrement, since splice will update indices and length
+                }
+            }
+            console.log(`Pruned to ${json.applist.apps.length} apps that do not need updating`);
+            saveList(json);
+        }
+        // return; // For debugging, if you are reading this I did not commit working code
     }
 
     if (!isOldList()) {
