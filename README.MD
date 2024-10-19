@@ -18,6 +18,8 @@ The webserver will start indexing everytime you visit it. Only one job at at tim
 
 Use `NO_PUSH=TRUE` if you don't want to commit & push the results
 
+Use `HARD_UPDATE=TRUE` to update *all* results. **WARNING: THIS WILL TAKE MANY HOURS AS IT NEEDS TO RETRIEVE ALL GAMES FROM STEAM!**
+
 ## LICENSE
 
 All the files under this repo are free and open-source, and should always be distributed as such,
