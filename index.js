@@ -218,6 +218,14 @@ async function fullUpdate() {
         process.chdir(local_dump_path);
     }
 
+    if (process.env.HARD_UPDATE == 'TRUE') {
+        console.log('Unlinking files for hard update');
+        fs.unlinkSync(local_dump_name);
+        fs.unlinkSync(local_dump_name_games);
+        fs.unlinkSync(local_dump_name_games_achievements);
+        fs.unlinkSync(local_dump_name_not_games);
+    }
+
     if (!isOldList()) {
         console.log('The list isn\'t old enough to be refreshed');
         return;
