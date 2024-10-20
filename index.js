@@ -30,6 +30,7 @@ const all_apps_list_endpoint = "https://api.steampowered.com/ISteamApps/GetAppLi
 const startDir = process.cwd();
 const is_dev = !process.env.PORT;
 let is_processing = false;
+const write_batch_period = 10;
 
 function millisToDiffStr(millis) {
     let seconds = millis / 1000;
@@ -124,10 +125,10 @@ function generateList(exclude_list = []) {
             const now = new Date();
             const ids = batch.map(a => a.appid).join(',');
 
+            console.log('------------------');
             console.log('Starting batch ' + index + ' of ' + batches_count + ' - ' + Math.round(100 * index / batches_count) + '%');
             console.log('Processing appids: ' + ids + ' - Estimated time needed: ' + millisToDiffStr((now - start_date) / (index / batches_count)));
             console.log('ETA: ' + millisToDiffStr(((now - start_date) / (index / batches_count) - (now - start_date))));
-            console.log('------------------');
 
             let response = await fetch(data_url + ids);
             while (!response.ok) {
@@ -175,10 +176,14 @@ function generateList(exclude_list = []) {
                 });
             }
 
+            if (index % write_batch_period == 0) {
+                saveList(arranged_list);
+            }
+
             // let's not pressure the server as much
             await timeOutPromise(100);
         });
-
+        console.log('------------------'); // Makes formatting look nice
         resolve(arranged_list);
     });
 }
