@@ -183,7 +183,6 @@ function generateList(exclude_list = []) {
                     });
                 });
             }
-            console.log('------------------');
 
             if (index % write_batch_period == 0) {
                 saveList(arranged_list);
@@ -245,16 +244,9 @@ async function fullUpdate() {
             console.log("Removing old entries for hard update")
             file = fs.readFileSync(local_dump_name, encoding='UTF-8');
             json = JSON.parse(file);
-            // console.log(json.applist.apps);
-            // console.log(json.applist.apps[5]);
-            // console.log(json.applist.apps[5].name);
-            // console.log(json.applist.apps.length);
-            // json.applist.apps.splice(5, 1);
-            // console.log(json.applist.apps[5].name);
             console.log(`Found ${json.applist.apps.length} apps in old list`);
             for (i = 0; i < json.applist.apps.length; i++) {
                 if (json.applist.apps[i].type == "game" && json.applist.apps[i].achievements == null) {
-                    // console.log(js.applist.apps[i].name);
                     json.applist.apps.splice(i, 1);
                     i--; // Decrement, since splice will update indices and length
                 }
@@ -264,7 +256,6 @@ async function fullUpdate() {
         } else {
             console.warn("A previous run was interrupted! Hard update will not be run until " + previous_run_file + " is removed.")
         }
-        // return; // For debugging, if you are reading this I did not commit working code
     }
 
     if (!isOldList()) {
