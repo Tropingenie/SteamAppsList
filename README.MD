@@ -17,7 +17,6 @@ Use the environment variable `WEBSERVER=true` to run a webserver with that, boun
 The webserver will start indexing everytime you visit it. Only one job at at time.
 
 Use `NO_PUSH=TRUE` if you don't want to commit & push the results.
-Use `FULL_DUMP=TRUE` to do a complete dump from scratch, without using the previous dumps from git as a baseline.
 
 Use `HARD_UPDATE=TRUE` to update *all* results. **WARNING: THIS WILL TAKE MANY HOURS AS IT NEEDS TO RETRIEVE ALL GAMES FROM STEAM!**
 
