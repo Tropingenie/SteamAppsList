@@ -152,12 +152,6 @@ function generateList(exclude_list = []) {
             try {
                 const data = await response.json();
                 batch.forEach((app) => {
-                    // If the game isn't released yet, we just aren't interested
-                    if (data[app.appid].success && data[app.appid].data.release_date.coming_soon == true) { // Some apps don't have the key for some reason, eg Dota 2, 570
-                        console.log('Skipping unreleased game with appid: ' + app.appid);
-                        return;
-                    }
-
                     let achievements = null;
                     if (data[app.appid].success && data[app.appid].data.achievements) { // Some apps don't have the key for some reason, eg Dota 2, 570
                         achievements = data[app.appid].data.achievements.total;
