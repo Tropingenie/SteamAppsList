@@ -23,6 +23,13 @@ Use `NO_PUSH=TRUE` if you don't want to commit & push the results.
 
 Use `HARD_UPDATE=TRUE` to update existing games with 'null' achievements, instead of just pulling new entries. **This will take many hours due to the volume of requests.**
 
+### Validation
+
+Run `diff_dumps.js` and observe the output (you may want to `tee` or pipe to a file). A dump is valid if:
+1. No previous integer entries have been overwritten (e.g. achievement amount becomes null, games become junk, etc)
+1. No previous integer entries were removed (this implies something has gone wrong with the `index.js` script)
+1. No other spurious behavior is observed
+
 ## LICENSE
 
 All the files under this repo are free and open-source, and should always be distributed as such,
