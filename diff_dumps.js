@@ -23,16 +23,26 @@ function diffDumps(){
         }
         if (match != null){
             if (new_dump.applist.apps[match].achievements != old_dump.applist.apps[i].achievements){
-                console.log(`${old_dump.applist.apps[i].name}: ${old_dump.applist.apps[i].achievements} => ${new_dump.applist.apps[match].achievements}`);
+                if(old_dump.applist.apps[i].achievements != null && new_dump.applist.apps[i].achievements == null)
+                {
+                    console.error(`${old_dump.applist.apps[i].name}: ${old_dump.applist.apps[i].achievements} => ${new_dump.applist.apps[match].achievements}`);
+                } else {
+                    console.log(`${old_dump.applist.apps[i].name}: ${old_dump.applist.apps[i].achievements} => ${new_dump.applist.apps[match].achievements}`);
+                }
                 new_dump.applist.apps.splice(match, 1); // Remove the entry from the list
             }
         } else {
-            console.warn(`${old_dump.applist.apps[i].name}: ${old_dump.applist.apps[i].achievements} => Removed`)
+            if(old_dump.applist.apps[i].achievements != null)
+            {
+                console.error(`${old_dump.applist.apps[i].name}: ${old_dump.applist.apps[i].achievements} => Removed`)
+            } else {
+                console.log(`${old_dump.applist.apps[i].name}: ${old_dump.applist.apps[i].achievements} => Removed`)
+            }
         }
     }
     if(new_dump.applist.apps.length > 0){
         for (j = 0; j < new_dump.applist.apps.length; j++){
-            console.log(`${new_dump.applist.apps[j].name}: New entry => ${new_dump.applist.apps[match].achievements}`);
+            // console.log(`${new_dump.applist.apps[j].name}: New entry => ${new_dump.applist.apps[match].achievements}`);
         }
     }
 }
